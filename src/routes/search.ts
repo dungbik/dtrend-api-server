@@ -47,7 +47,7 @@ router.get('/:keyword', async (ctx, next) => {
             console.log(error);
         }
         let count = 0;
-        if (results.length > 0) {
+        if (results != undefined && results.length > 0) {
             count = results[0].count;
             connection.query('UPDATE keywordList SET count = ? WHERE keyword = ?', [count + 1, keyword_ori], function (error, results, fields) {
                 if (error) {
