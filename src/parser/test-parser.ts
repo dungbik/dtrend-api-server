@@ -30,7 +30,11 @@ export default class TestParser {
         try {
             //return null;
             let data = await this.handleData(keyword);
-            return data.response.body[0].items[0].item;
+
+            let result:any = {}
+            result.items = data.response.body[0].items[0].item;
+            result.count = data.response.count[0].totalCount[0];
+            return result;
         } catch (err) {
             console.log('TestParser getPost ' + err);
         }
