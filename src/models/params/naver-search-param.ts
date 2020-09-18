@@ -7,7 +7,7 @@ const parserParam: ParserParam = {
     'X-API-KEY': '01000000001b254e929a55af040d6a30f8b45d9f8a33a3fa3346cdf92d1f9ac44ed9c99e0e',
     'X-Customer': '1986537'
   },
-  secretKey: 'AQAAAAAbJU6SmlWvBA1qMPi0XZ+KGHrMf+BxHLta+8yG0O9QnQ==',
+  secretKey: 'AQAAAAAOIYtgfei3E62jrYlnVUzIHEsKTJodoKmtDAi9duNMRA==',
   type: '/keywordstool',
   method: 'GET'
 };

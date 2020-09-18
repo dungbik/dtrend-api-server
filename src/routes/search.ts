@@ -31,7 +31,7 @@ const router = new Router({prefix: '/search'});
 var connection = Mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '0505',
+  password : 'root',
   database : 'dtrend'
 });
 

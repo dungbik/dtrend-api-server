@@ -57,28 +57,32 @@ export default class NaverParser {
     
 
     private async addData(i: number, json_obj: any) {
-        const sleep = (ms: any) => {
-            return new Promise(resolve=> {
-                setTimeout(resolve, ms)
-            })
-        }
-        let search_res = await this.naver_search_parser.getSearch(json_obj[i].keyword, 1, false);
-        sleep(50);
-        let search = this.getCount(search_res.data[0].qc_pc, search_res.data[0].qc_mobile);
-        let post = await this.naver_post_parser.getTotalPost(json_obj[i].keyword);
-        const rankData: Rank = {
-            rank: i + 1,
-            title: json_obj[i].keyword,
-            search: this.numberWithCommas(search),
-            post: this.numberWithCommas(post)
-        };
-        this.rankResult.data.push(rankData);
-        if (this.rankResult.data.length == 10) {
-            this.rankResult.data.sort(function (itemA: any, itemB: any) {
-                let dataA = itemA.rank;
-                let dataB = itemB.rank;
-                return dataA > dataB ? 1 : -1;
-            });
+        try {
+            const sleep = (ms: any) => {
+                return new Promise(resolve=> {
+                    setTimeout(resolve, ms)
+                })
+            }
+
+            let search_res = await this.naver_search_parser.getSearch(json_obj[i].keyword, 1, false);
+            let search = this.getCount(search_res.data[0].qc_pc, search_res.data[0].qc_mobile);
+            let post = await this.naver_post_parser.getTotalPost(json_obj[i].keyword);
+            const rankData: Rank = {
+                rank: i + 1,
+                title: json_obj[i].keyword,
+                search: this.numberWithCommas(search),
+                post: this.numberWithCommas(post)
+            };
+            this.rankResult.data.push(rankData);
+            if (this.rankResult.data.length == 10) {
+                this.rankResult.data.sort(function (itemA: any, itemB: any) {
+                    let dataA = itemA.rank;
+                    let dataB = itemB.rank;
+                    return dataA > dataB ? 1 : -1;
+                });
+            }
+        } catch (err) {
+            console.log('NaverParser addData ' + err);
         }
     }
 
@@ -104,7 +108,7 @@ export default class NaverParser {
 
         for (var i = 0; i < limit; i++) { // 처리속도가 빠르면 응답 거절당함
             await this.addData(i, json_obj);
-            sleep(100);
+            await sleep(900);
         }
         return this.rankResult;
     }

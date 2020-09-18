@@ -18,7 +18,7 @@ const router = new Router({ prefix:'/ranking' });
 var connection = Mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
-  password : '0505',
+  password : 'root',
   database : 'dtrend'
 });
 
@@ -35,6 +35,25 @@ async function getRanking() {
   return p;
 };
 
+async function refreshData(response: any) {
+  nParser.param = naverParam;
+  gParser.param = googleParam;
+  dParser.param = daumParam;
+
+  const responses = await Promise.all([
+    nParser.getRank(),
+    gParser.getRank(),
+    dParser.getRank()
+  ]);
+
+  response.naver = responses[0];
+  response.google = responses[1];
+  response.daum = responses[2];
+
+  const dataStr = JSON.stringify(response);
+  fs.writeFileSync('test.json', dataStr);
+}
+
 router.get('/', async (ctx, next) => {
   let refresh = true;
   let response:any = { createdDate: new Date().toLocaleString("ko-KR", {timeZone: "Asia/Seoul"}) };
@@ -50,29 +69,13 @@ router.get('/', async (ctx, next) => {
     if (min_gap < 30) { //30분마다 갱신
       json_obj.dtrend = response.dtrend; // dtrend Ranking은 항상 갱신
       refresh = false;
-      ctx.body = json_obj;
     }
+    ctx.body = json_obj;
   } catch (err) {
   }
-
+  refresh = true;
   if (refresh) {
-    nParser.param = naverParam;
-    gParser.param = googleParam;
-    dParser.param = daumParam;
-
-    const responses = await Promise.all([
-      nParser.getRank(),
-      gParser.getRank(),
-      dParser.getRank()
-    ]);
-
-    response.naver = responses[0];
-    response.google = responses[1];
-    response.daum = responses[2];
-    ctx.body = response;
-
-    const dataStr = JSON.stringify(response);
-    fs.writeFileSync('test.json', dataStr);
+    refreshData(response);
   }
 });
 
