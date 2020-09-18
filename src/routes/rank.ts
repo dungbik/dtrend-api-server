@@ -73,7 +73,7 @@ router.get('/', async (ctx, next) => {
     ctx.body = json_obj;
   } catch (err) {
   }
-  refresh = true;
+  
   if (refresh) {
     refreshData(response);
   }
