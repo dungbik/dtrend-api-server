@@ -28,13 +28,13 @@ const auction_parser = auctionParser.Instance;
 const naver_datalab2_parser = naverDataLab2Parser.Instance;
 const router = new Router({prefix: '/search'});
 
-/* var connection = Mysql.createConnection({
+var connection = Mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'root',
   database : 'dtrend'
 });
- */
+
 
 router.get('/:keyword', async (ctx, next) => {
     let keyword_ori = ctx.params.keyword.split('+').join(' ');
@@ -42,7 +42,7 @@ router.get('/:keyword', async (ctx, next) => {
     let response:any = {}; 
 
     
-    /*connection.query('SELECT * FROM keywordList WHERE keyword = ?', keyword_ori, function (error, results, fields) {
+    connection.query('SELECT * FROM keywordList WHERE keyword = ?', keyword_ori, function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -61,7 +61,7 @@ router.get('/:keyword', async (ctx, next) => {
                 }
             });
         }
-    });*/
+    });
     
     naver_post_parser.param = naverPostParam;
     naver_search_parser.param = naverSearchParam;
@@ -79,7 +79,7 @@ router.get('/:keyword', async (ctx, next) => {
         youtube_search_parser.searchVideo(keyword),
         google_trends_parser.getPost(keyword_ori),
         naver_relkeyword_parser.getRelKeyword(keyword_ori),
-        auction_parser.getAwards(keyword_ori),
+        //auction_parser.getAwards(keyword_ori),
         naver_datalab2_parser.getYearKeywordTrend(keyword_ori),
         test_parser.getPost(keyword)
 
@@ -96,9 +96,9 @@ router.get('/:keyword', async (ctx, next) => {
     response.youtubeSearch = responses[6];
     response.googleTrends = responses[7];
     response.naverRelKeyword = responses[8];
-    response.auctionAwards = responses[9];
-    response.naverYearDataLab2 = responses[10];
-    response.patent = responses[11];
+    //response.auctionAwards = responses[9];
+    response.naverYearDataLab2 = responses[9];
+    response.patent = responses[10];
     ctx.body = response;
 });
   

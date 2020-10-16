@@ -108,7 +108,7 @@ export default class NaverParser {
 
         for (var i = 0; i < limit; i++) { // 처리속도가 빠르면 응답 거절당함
             await this.addData(i, json_obj);
-            //await sleep(900);
+            await sleep(50);
         }
         return this.rankResult;
     }

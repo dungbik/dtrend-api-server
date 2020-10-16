@@ -36,48 +36,56 @@ export default class NaverPostParser {
     }
 
     async getYearKeywordTrend(keyword: string) {
-        let now = new Date();
-        now.setMonth(now.getMonth()-1);
-        let endDate = this.getDate(now);
-        let startDate = now.getFullYear() + '-01-01';
+        try {
+            let now = new Date();
+            now.setMonth(now.getMonth()-1);
+            let endDate = this.getDate(now);
+            let startDate = now.getFullYear() + '-01-01';
 
-        let request_body = {
-            "startDate": startDate,
-            "endDate": endDate,
-            "timeUnit": "month",
-            "keywordGroups": [
-                {
-                    "groupName": keyword,
-                    "keywords": [
-                        keyword
-                    ]
-                }
-            ]
-        };
-        const json_obj = await this.getKeywordTrend(keyword, request_body);
-        return json_obj.results[0].data;
+            let request_body = {
+                "startDate": startDate,
+                "endDate": endDate,
+                "timeUnit": "month",
+                "keywordGroups": [
+                    {
+                        "groupName": keyword,
+                        "keywords": [
+                            keyword
+                        ]
+                    }
+                ]
+            };
+            const json_obj = await this.getKeywordTrend(keyword, request_body);
+            return json_obj.results[0].data;
+        } catch (err) {
+            console.log('getYearKeywordTrend ' + err);
+        }
     }
 
     async getMonthKeywordTrend(keyword: string) {
-        let now = new Date();
-        let endDate = this.getDate(new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)); // 1일전
-        let startDate = this.getDate(new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)); // 31일전
-    
-        let request_body = {
-            "startDate": startDate,
-            "endDate": endDate,
-            "timeUnit": "date",
-            "keywordGroups": [
-                {
-                    "groupName": keyword,
-                    "keywords": [
-                        keyword
-                    ]
-                }
-            ]
-        };
-        const json_obj = await this.getKeywordTrend(keyword, request_body);
-        return json_obj.results[0].data;
+        try {
+            let now = new Date();
+            let endDate = this.getDate(new Date(now.getTime() - 1 * 24 * 60 * 60 * 1000)); // 1일전
+            let startDate = this.getDate(new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)); // 31일전
+        
+            let request_body = {
+                "startDate": startDate,
+                "endDate": endDate,
+                "timeUnit": "date",
+                "keywordGroups": [
+                    {
+                        "groupName": keyword,
+                        "keywords": [
+                            keyword
+                        ]
+                    }
+                ]
+            };
+            const json_obj = await this.getKeywordTrend(keyword, request_body);
+            return json_obj.results[0].data;
+        } catch (err) {
+            console.log('getMonthKeywordTrend ' + err);
+        }
     }
 
     async getKeywordTrend(keyword: string, request_body: any) {
