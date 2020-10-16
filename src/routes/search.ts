@@ -76,7 +76,7 @@ router.get('/:keyword', async (ctx, next) => {
         naver_datalab_parser.getYearKeywordTrend(keyword),
         naver_datalab_parser.getMonthKeywordTrend(keyword),
         daum_post_parser.getAllPost(keyword),
-        youtube_search_parser.searchVideo(keyword),
+        //youtube_search_parser.searchVideo(keyword),
         google_trends_parser.getPost(keyword_ori),
         naver_relkeyword_parser.getRelKeyword(keyword_ori),
         //auction_parser.getAwards(keyword_ori),
@@ -93,12 +93,12 @@ router.get('/:keyword', async (ctx, next) => {
     response.naverYearDataLab = responses[3];
     response.naverMonthDataLab = responses[4];
     response.daumPost = responses[5];
-    response.youtubeSearch = responses[6];
-    response.googleTrends = responses[7];
-    response.naverRelKeyword = responses[8];
+    //response.youtubeSearch = responses[6];
+    response.googleTrends = responses[6];
+    response.naverRelKeyword = responses[7];
     //response.auctionAwards = responses[9];
-    response.naverYearDataLab2 = responses[9];
-    response.patent = responses[10];
+    response.naverYearDataLab2 = responses[8];
+    response.patent = responses[9];
     ctx.body = response;
 });
   

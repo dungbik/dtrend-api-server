@@ -24,7 +24,7 @@ export default class GoogleTrendsParser {
     async getPost(keyword: string) {
         try {
             let result:any = {};
-            const responses = await Promise.all([
+            /*const responses = await Promise.all([
                 this.process(keyword, "KR"),
                 this.process(keyword, "US"),
                 this.process(keyword, "CN"),
@@ -36,6 +36,15 @@ export default class GoogleTrendsParser {
             result.cn = responses[2];
             result.jp = responses[3];
             result.vn = responses[4];
+            */
+
+            const responses = await Promise.all([
+                this.process(keyword, "KR"),
+                this.process(keyword, "US")
+            ]);
+            result.kr = responses[0];
+            result.us = responses[1];
+
 
             return result;
         } catch(err) {
