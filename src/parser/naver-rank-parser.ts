@@ -64,13 +64,13 @@ export default class NaverParser {
                 })
             }
 
-            let search_res = await this.naver_search_parser.getSearch(json_obj[i].keyword, 1, false);
-            let search = this.getCount(search_res.data[0].qc_pc, search_res.data[0].qc_mobile);
+            //let search_res = await this.naver_search_parser.getSearch(json_obj[i].keyword, 1, false);
+            //let search = this.getCount(search_res.data[0].qc_pc, search_res.data[0].qc_mobile);
             let post = await this.naver_post_parser.getTotalPost(json_obj[i].keyword);
             const rankData: Rank = {
                 rank: i + 1,
                 title: json_obj[i].keyword,
-                search: this.numberWithCommas(search),
+                //search: this.numberWithCommas(/*search*/9999),
                 post: this.numberWithCommas(post)
             };
             this.rankResult.data.push(rankData);
@@ -108,7 +108,7 @@ export default class NaverParser {
 
         for (var i = 0; i < limit; i++) { // 처리속도가 빠르면 응답 거절당함
             await this.addData(i, json_obj);
-            await sleep(900);
+            //await sleep(900);
         }
         return this.rankResult;
     }

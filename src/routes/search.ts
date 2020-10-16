@@ -28,13 +28,13 @@ const auction_parser = auctionParser.Instance;
 const naver_datalab2_parser = naverDataLab2Parser.Instance;
 const router = new Router({prefix: '/search'});
 
-var connection = Mysql.createConnection({
+/* var connection = Mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'root',
   database : 'dtrend'
 });
-
+ */
 
 router.get('/:keyword', async (ctx, next) => {
     let keyword_ori = ctx.params.keyword.split('+').join(' ');
@@ -42,7 +42,7 @@ router.get('/:keyword', async (ctx, next) => {
     let response:any = {}; 
 
     
-    connection.query('SELECT * FROM keywordList WHERE keyword = ?', keyword_ori, function (error, results, fields) {
+    /*connection.query('SELECT * FROM keywordList WHERE keyword = ?', keyword_ori, function (error, results, fields) {
         if (error) {
             console.log(error);
         }
@@ -61,7 +61,7 @@ router.get('/:keyword', async (ctx, next) => {
                 }
             });
         }
-    });
+    });*/
     
     naver_post_parser.param = naverPostParam;
     naver_search_parser.param = naverSearchParam;
