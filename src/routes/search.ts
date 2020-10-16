@@ -72,16 +72,16 @@ router.get('/:keyword', async (ctx, next) => {
     const responses = await Promise.all([
         naver_post_parser.getTotalPost(keyword),
         naver_post_parser.getPost('news', keyword_ori),
-        naver_search_parser.getSearchData(keyword, 1, false),
         naver_datalab_parser.getYearKeywordTrend(keyword),
         naver_datalab_parser.getMonthKeywordTrend(keyword),
         daum_post_parser.getAllPost(keyword),
         //youtube_search_parser.searchVideo(keyword),
         google_trends_parser.getPost(keyword_ori),
-        naver_relkeyword_parser.getRelKeyword(keyword_ori),
+        //naver_relkeyword_parser.getRelKeyword(keyword_ori),
         //auction_parser.getAwards(keyword_ori),
         naver_datalab2_parser.getYearKeywordTrend(keyword_ori),
-        test_parser.getPost(keyword)
+        test_parser.getPost(keyword),
+        naver_search_parser.getSearchData(keyword, 11, true),
 
     ]);
 
@@ -89,16 +89,16 @@ router.get('/:keyword', async (ctx, next) => {
     response.keyword = keyword_ori;
     response.naverPost = responses[0];
     response.naverNews = responses[1];
-    response.naverSearch = responses[2];
-    response.naverYearDataLab = responses[3];
-    response.naverMonthDataLab = responses[4];
-    response.daumPost = responses[5];
+    response.naverYearDataLab = responses[2];
+    response.naverMonthDataLab = responses[3];
+    response.daumPost = responses[4];
     //response.youtubeSearch = responses[6];
-    response.googleTrends = responses[6];
-    response.naverRelKeyword = responses[7];
+    response.googleTrends = responses[5];
+    //response.naverRelKeyword = responses[6];
     //response.auctionAwards = responses[9];
-    response.naverYearDataLab2 = responses[8];
-    response.patent = responses[9];
+    response.naverYearDataLab2 = responses[6];
+    response.patent = responses[7];
+    response.naverRelKeyword = responses[8];
     ctx.body = response;
 });
   

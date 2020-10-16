@@ -23,7 +23,11 @@ export default class NaverSearchParser {
     }
 
     async getSearchData(keyword: string, size: Number, sort: Boolean) {
-        return (await this.getSearch(keyword, size, sort)).data;
+        try {
+            return (await this.getSearch(keyword, size, sort)).data;
+        } catch (err) {
+            console.log('NaverSearchParser:getSearchData ' + err);
+        }
     }
 
 
@@ -80,7 +84,7 @@ export default class NaverSearchParser {
             let json_obj = JSON.parse(html).keywordList;
             if (sort && size > 1) {
                 let self = this;
-                json_obj = json_obj.slice(1);
+                json_obj = json_obj.slice(0);
                 json_obj.sort(function (itemA: any, itemB: any) {
                     var dataA = self.getCount(itemA);
                     var dataB = self.getCount(itemB);
